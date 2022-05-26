@@ -27,6 +27,7 @@ apply plugin: "com.github.hierynomus.license"
 apply plugin: "jacoco"
 apply plugin: "org.ajoberstar.grgit"
 apply plugin: "com.diffplug.spotless"
+apply plugin: "antlr"
 // import gradle files
 apply from: "gradle/dependencies.gradle"
 apply from: "gradle/formatting.gradle"
@@ -45,4 +46,24 @@ tasks.withType(JavaCompile) {
     // options.compilerArgs << "-Xlint:deprecation"
     // uncomment the next line for build with compiler argument -Xlint:unchecked
     // options.compilerArgs << "-Xlint:unchecked"
+}
+
+/**
+ * Without the next section Gradle will add a 'compile' dependency on Antlr3:
+ * https://github.com/gradle/gradle/issues/820
+ */
+configurations {
+    compile {
+        extendsFrom = extendsFrom.findAll { it != configurations.antlr }
+    }
+}
+
+generateGrammarSource {
+    maxHeapSize = "256m"
+
+    outputDirectory = file("src/main/java/io/github/astrapi69/antlr/generated")
+}
+
+clean.doLast {
+    file('generated-src').deleteDir()
 }

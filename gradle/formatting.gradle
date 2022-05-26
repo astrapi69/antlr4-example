@@ -11,6 +11,10 @@ spotless {
         endWithNewline()
     }
     java {
+        target fileTree(rootDir) {
+            include '**/*.java'
+            exclude 'src/main/java/io/github/astrapi69/antlr/generated/*.*'
+        }
         eclipse("4.19.0").configFile("src/test/resources/alpharo-formatter.xml")
     }
 }
