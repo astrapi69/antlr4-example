@@ -60,8 +60,6 @@ configurations {
 
 generateGrammarSource {
     maxHeapSize = "256m"
-
-    outputDirectory = file("src/main/java/io/github/astrapi69/antlr/generated")
 }
 
 clean.doLast {
